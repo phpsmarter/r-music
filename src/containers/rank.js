@@ -1,77 +1,42 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { homeAction,scrollTopAction } from '../actions/home'
+import { rankListAction } from '../actions/rank'
 import Slider from '../components/common/slider'
 import Nav from '../components/common/Nav'
 import RecommendList from '../components/music/recommendList'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import Beat from '../components/music/beat'
 import Search from '../components/music/search'
 import { browserHistory } from 'react-router'
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-  
-    this.state = {
-      index: 0,
-      page:1
-    };
-
-    this.handleChangeTabs = (value) => () => {
-      this.setState({
-        index: value,
-      });
-    };
-
-    this.handleChangeIndex = (index) => {
-      this.setState({
-        index,
-      });
-    };
-
-  }
-
   componentDidMount(){
     const { dispatch,data,scrollTop } = this.props
-    
-  }
-
-  // 记录当前div滚动高度，以便返回时复原
-  scrollTopHandler(){
-    const { dispatch } = this.props
-    dispatch(scrollTopAction(this.refs.container.scrollTop))
-  }
-
-  scroll(){
-    const { dispatch,data } = this.props
-    // console.log('offsetHeight',this.refs.container.offsetHeight)
-    // console.log('scrollHeight',this.refs.container.scrollHeight)
-    // console.log('clientHeight',this.refs.container.clientHeight)
-    // console.log('scrollTop',this.refs.container.scrollTop)    
-    
-    if( this.refs.container.scrollTop + this.refs.container.clientHeight ===  this.refs.container.scrollHeight){
-      // 这里有问题
-      dispatch(homeAction(data,this.state.page+1))
-      this.setState({page:this.state.page+1})
-    }
-  }
-
-  gotoSearch(){
-     browserHistory.push('search')
+    dispatch(rankListAction())
   }
 
   render() {
-    const { dispatch,data,login,controll} = this.props
-    const {
-      index,
-    } = this.state;
+    const { rankList } = this.props
     return (
       <div className='container'>
 
-        rank
-
+        {
+          rankList.map( (item) => 
+            <div style={ style.item }>
+              <div style={ style.left }>
+                <img src={item.imgurl.replace('{size}',400)}  style={ style.img }/>
+              </div>
+              <div style={ style.content }>
+                  <div style={style.rankname}>{item.rankname }</div>
+                  { item.songinfo.map( (song) => <div style={ style.songname } >{song.songname}</div> ) }
+              </div>
+              <div style={ style.right }>
+                >
+              </div>
+            </div>
+          )
+        }
 
       </div>
     )
@@ -80,10 +45,41 @@ class App extends Component {
 
 function map(state) {
   return {
-    data: state.home.home,
-    scrollTop: state.home.scrollTop,
-    login: state.login.login,
-    controll:state.music.controll
+    rankList: state.rank.rankList
+  }
+}
+
+const style = {
+  item:{
+    display:'flex',
+    padding:'1rem'
+  },
+  left:{
+    flex:2
+  },
+  img:{
+    width:'100%'
+  },
+  content:{
+    display:'flex',
+    flexDirection:'column',
+    flex:5,
+    padding:'.6rem'
+  },
+  rankname:{
+    fontSize:'1.3rem'
+  },
+  songname:{
+    width:'13rem',
+    textOverflow:'ellipsis',
+    whiteSpace:'nowrap',
+     overflow:'hidden'
+  },
+  right:{
+    display:'flex',
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center'
   }
 }
 

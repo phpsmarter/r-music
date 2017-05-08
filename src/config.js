@@ -15,6 +15,7 @@ if (process.env.NODE_ENV === 'production') {
     krcAPI: '/kugou/app/i/krc.php?cmd=100&hash=HASH&timelength=TIMELENGTH',
     searchHotAPI: '/mobilecdn/api/v3/search/hot',
     searchResultAPI: '/mobilecdn/api/v3/search/song',
+    rankListAPI:'/mobilecdn/api/v3/rank/list?plat=2&withsong=1&showtype=2&parentid=0&apiver=4&version=8550'
   }
 }else{
   Config = {
@@ -29,6 +30,7 @@ if (process.env.NODE_ENV === 'production') {
     krcAPI: '/kugou/app/i/krc.php?cmd=100&hash=HASH&timelength=TIMELENGTH',
     searchHotAPI: '/mobilecdn/api/v3/search/hot',
     searchResultAPI: '/mobilecdn/api/v3/search/song',
+    rankListAPI:'/mobilecdn/api/v3/rank/list?plat=2&withsong=1&showtype=2&parentid=0&apiver=4&version=8550'
   }
 }
 
