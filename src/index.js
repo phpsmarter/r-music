@@ -11,7 +11,8 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom'
 
 const store = configureStore()
@@ -47,10 +48,12 @@ render(
 	  <Route  path="/search" component={search} />
 	  <Route  path="/album/:id" component={album} />
 	  <Route  path="/play/:id" component={play} />
-	  <Route component={NoMatch}/>
+	  <Route  path="/play" component={play} />
+	  <Route component={Home}/>
      </Switch> 
   </Router>
   </App>
   </Provider>,
   document.getElementById('root')
 )
+

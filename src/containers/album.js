@@ -11,8 +11,6 @@ import { musicBoxAddAPI,currentMusicAPI,changetimeAPI,controllAPI } from '../act
 class App extends Component {
 
   back(){
-     
-      console.log(this.props.history)
       this.props.history.goBack()
   }
 
@@ -30,6 +28,7 @@ class App extends Component {
   }
 
   render() {
+     console.log(this.props.history)
     const { dispatch,albumList,login,controll,currentMusic } = this.props
     return (
       <div className='root'>
@@ -43,7 +42,7 @@ class App extends Component {
         </div>
         
         <div className="container">
-          <Album data={albumList} addMusic={(m) => this.musicBoxAdd(m)} currentHash={currentMusic.hash}/>
+          <Album data={albumList} addMusic={(m) => this.musicBoxAdd(m)} currentHash={currentMusic.hash} history={this.props.history}/>
         </div>
 
         <Nav/>

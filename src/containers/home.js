@@ -5,7 +5,7 @@ import Slider from '../components/common/slider'
 import Nav from '../components/common/Nav'
 import RecommendList from '../components/music/recommendList'
 import {  BrowserRouter as Router,
-  Route,Link,Redirect } from 'react-router-dom'
+  Route,Link,Redirect,Switch } from 'react-router-dom'
 import Beat from '../components/music/beat'
 import Search from '../components/music/search'
 
@@ -16,11 +16,28 @@ import rank from './rank'
 
 class App extends Component {
 
+
   constructor(props) {
     super(props);
-  
+    console.log(this.props.history.location.pathname)  
+    let index
+    switch(this.props.history.location.pathname) {
+        case '/discover/recommend':
+          index = 0
+          break;
+        case '/discover/playlist':
+          index = 1
+          break;
+        case '/discover/rank':
+          index = 2
+          break;
+        case '/discover/djradio':
+          index = 3
+          break;
+      }
+
     this.state = {
-      index: 0,
+      index: index,
       page:1
     };
 
@@ -55,11 +72,9 @@ class App extends Component {
   componentDidMount(){
     const { dispatch,data,scrollTop } = this.props
 
-    console.log(this.props.history)
-
-    if( this.props.history.location.pathname === '/discover'  || this.props.history.location.pathname === '/' ){
-      this.props.history.replace('/discover/recommend')
-    }
+    // if( this.props.history.location.pathname.indexOf('/discover') > 0 ){
+    //   this.props.history.replace('/discover/recommend')
+    // }
 
     if( data.recommendMusics.length > 1){
       // 计算有问题
@@ -103,9 +118,9 @@ class App extends Component {
 
         <div className="header" style={{backgroundColor:'#ce3d3e',color:'#fff',display:'flex',justifyContent: 'space-between',padding:'0 1rem'}}>
           <div onClick={()=>this.back()} style={{display:'flex',flex:1}}></div>
-          <div style={{display:'flex',flex:10,justifyContent: 'center'}} onClick={()=>this.gotoSearch()}>
+          <Link style={{display:'flex',flex:10,justifyContent: 'center'}} to={'/search'} >
             <Search />
-          </div>
+          </Link>
           <Link style={{display:'flex',flex:1,justifyContent: 'flex-end'}}  to='/play'>
             <Beat  beat={controll === 'play'} />
           </Link>
@@ -122,10 +137,15 @@ class App extends Component {
         </div>
         
        
-        <Route  path={`${this.props.match.url}/recommend`} component={Recommend} />
-        <Route  path={`${this.props.match.url}/djradio`} component={djradio} />
-        <Route  path={`${this.props.match.url}/playlist`} component={playlist} />
-        <Route  path={`${this.props.match.url}/rank`} component={rank} />
+        
+
+        <Switch className='root'>
+          <Route  path={`${this.props.match.url}/recommend`} component={Recommend} />
+          <Route  path={`${this.props.match.url}/djradio`} component={djradio} />
+          <Route  path={`${this.props.match.url}/playlist`} component={playlist} />
+          <Route  path={`${this.props.match.url}/rank`} component={rank} />
+          <Route component={Recommend}/>
+         </Switch>
 
         <Nav/>
 
