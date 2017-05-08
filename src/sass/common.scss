@@ -117,3 +117,19 @@ html,body {
   border: solid 3px #d2a5a5  !important;
   background-color: rgb(206, 61, 62) !important;
 }
+
+
+@keyframes ripple {
+  to {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+.ripple {
+  position: absolute;
+  background: rgba(0,0,0,.15);
+  border-radius: 100%;
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple .50s ease-out;
+}

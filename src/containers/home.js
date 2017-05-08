@@ -14,6 +14,8 @@ import djradio from './djradio'
 import playlist from './playlist'
 import rank from './rank'
 
+const navArray = ['个性推荐','歌单','排行榜','主播电台']
+
 class App extends Component {
 
 
@@ -42,20 +44,30 @@ class App extends Component {
     };
 
     this.handleChangeTabs = (value) => () => {
+
+
       this.setState({
         index: value,
       });
       switch(value) {
         case 0:
+          this.setState({flag0:true})
+          setTimeout(()=> this.setState({flag0:false}),750) 
           this.props.history.push('/discover/recommend')
           break;
         case 1:
+         this.setState({flag1:true})
+          setTimeout(()=> this.setState({flag1:false}),750) 
           this.props.history.push('/discover/playlist')
           break;
         case 2:
+         this.setState({flag2:true})
+          setTimeout(()=> this.setState({flag2:false}),750) 
           this.props.history.push('/discover/rank')
           break;
         case 3:
+         this.setState({flag3:true})
+          setTimeout(()=> this.setState({flag3:false}),750) 
           this.props.history.push('/discover/djradio')
           break;
       }
@@ -84,30 +96,6 @@ class App extends Component {
     }
   }
 
-  // 记录当前div滚动高度，以便返回时复原
-  scrollTopHandler(){
-    const { dispatch } = this.props
-    dispatch(scrollTopAction(this.refs.container.scrollTop))
-  }
-
-  // scroll(){
-  //   const { dispatch,data } = this.props
-  //   // console.log('offsetHeight',this.refs.container.offsetHeight)
-  //   // console.log('scrollHeight',this.refs.container.scrollHeight)
-  //   // console.log('clientHeight',this.refs.container.clientHeight)
-  //   // console.log('scrollTop',this.refs.container.scrollTop)    
-    
-  //   if( this.refs.container.scrollTop + this.refs.container.clientHeight ===  this.refs.container.scrollHeight){
-  //     // 这里有问题
-  //     dispatch(homeAction(data,this.state.page+1))
-  //     this.setState({page:this.state.page+1})
-  //   }
-  // }
-
-  gotoSearch(){
-     // browserHistory.push('search')
-  }
-
   render() {
     const { dispatch,data,login,controll} = this.props
     const {
@@ -125,13 +113,22 @@ class App extends Component {
             <Beat  beat={controll === 'play'} />
           </Link>
         </div>
+          
 
         <div className='homeTab'>
             <div className='homeTab1'>
-              <div style={index === 0 ? { color: '#ce3d3e' } :{}} onClick={this.handleChangeTabs(0)}>个性推荐</div>
-              <div style={index === 1 ? { color: '#ce3d3e' } :{}} onClick={this.handleChangeTabs(1)}>歌单</div>
-              <div style={index === 2 ? { color: '#ce3d3e' } :{}} onClick={this.handleChangeTabs(2)}>排行榜</div>
-              <div style={index === 3 ? { color: '#ce3d3e' } :{}} onClick={this.handleChangeTabs(3)}>主播电台</div>
+              {
+                navArray.map( (item,i) => 
+                  <div style={{position:'relative',width: '100%',height:'100%'}}>
+                    <div style={ Object.assign({ display:'flex',flex:1,justifyContent: 'center',alignItems:'center'},  index === i ? { color: '#ce3d3e' } :{} )} onClick={this.handleChangeTabs(i)}>{item}</div>
+                    {
+                      this.state[`flag${i}`] ? <div className={this.state[`flag${i}`] ? 'ripple' : ''} style={{position: 'absolute',backgroundColor:'#999',width:'100%',height:'100%'}}></div> :''
+                    }
+                  </div>  
+  
+                )
+              }
+              
             </div>
             <div className="highlight" style={{transform:`translateX(${index}00%)`}}></div>
         </div>
