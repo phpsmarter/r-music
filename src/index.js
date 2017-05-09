@@ -31,7 +31,7 @@ import account from './containers/account'
 import search from './containers/search'
 import album from './containers/album'
 import play from './containers/play'
-
+import rankinfo from './containers/rankinfo'
 
 console.log(history)
 
@@ -49,6 +49,7 @@ render(
 	  <Route  path="/album/:id" component={album} />
 	  <Route  path="/play/:id" component={play} />
 	  <Route  path="/play" component={play} />
+    <Route  path="/rankinfo/:rankid" component={rankinfo} />
 	  <Route component={Home}/>
      </Switch> 
   </Router>
